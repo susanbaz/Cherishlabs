@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const router = express.Router();
 router.use('/users', require('./users'));
@@ -11,5 +13,6 @@ router.use('/shipping', require('./shipping'));
 router.use('/payments', require('./payments'));
 router.use('/addtocart', require('./addtocart'));
 router.use('/addtowishlist', require('./addtowishlist'));
+
 
 module.exports = router;

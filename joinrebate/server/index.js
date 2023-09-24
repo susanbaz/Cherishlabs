@@ -1,3 +1,5 @@
+// Import the dotenv module at the top
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan'); // Add this line
 const app = new express();

@@ -11,6 +11,7 @@ import Features from './Features';
 import Testimony from './Testimony';
 import Product from '../Shoplist/Products';
 import Footer from './Footer';
+import Shoplist from '../Shoplist/Shoplist';
 
 function Home() {
   return (
@@ -25,7 +26,7 @@ function Home() {
       <AddBanner />
       <Features />
       <Testimony />
-      <Product />
+      <Shoplist />
       <Footer />
     </div>
   );

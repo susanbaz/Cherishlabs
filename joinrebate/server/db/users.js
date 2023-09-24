@@ -1,12 +1,15 @@
+// Import the dotenv module at the top
+require('dotenv').config();
+
+// Then, you can continue with your other imports and code
 const client = require('./client');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET, COOKIE_SECRET } = process.env;
+const { JWT_SECRET } = process.env; // Remove COOKIE_SECRET as it's not used in this file
 const SALT_COUNT = 10;
 
-//get all the users from database
+// Get all users from the database
 async function getUsers() {
-  
   try {
     const result = await client.query('SELECT * FROM users');
     return result.rows;
@@ -22,7 +25,6 @@ async function signupUser({ username, password, email }) {
     const salt = await bcrypt.genSalt(SALT_COUNT);
     const hashPassword = await bcrypt.hash(password, salt);
 
-    // Insert the user into the database with the hashed password
     const { rows: [user] } = await client.query(
       `
       INSERT INTO users(username, password, email)
@@ -57,7 +59,6 @@ async function loginUser({ username, password }, res) {
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-     
       const resetPasswordError = new Error('Incorrect password. Please reset your password.');
       resetPasswordError.code = 'RESET_PASSWORD_REQUIRED';
       throw resetPasswordError;
@@ -84,18 +85,16 @@ async function logoutUser(req, res) {
 
 // Function to get a user by username
 async function getUserByUsername(username) {
-  const client = await pool.connect();
   try {
     const result = await client.query('SELECT * FROM users WHERE username = $1', [username]);
     return result.rows[0];
-  } finally {
-    client.release();
+  } catch (error) {
+    throw error;
   }
 }
 
 // Function to update user profile by user ID
 async function updateUser(userId, { username, email }) {
-  const client = await pool.connect();
   try {
     const result = await client.query(
       'UPDATE users SET username = $1, email = $2 WHERE id = $3 RETURNING *',
@@ -103,18 +102,17 @@ async function updateUser(userId, { username, email }) {
     );
 
     return result.rows[0];
-  } finally {
-    client.release();
+  } catch (error) {
+    throw error;
   }
 }
 
 // Function to delete a user by user ID
 async function deleteUser(userId) {
-  const client = await pool.connect();
   try {
     await client.query('DELETE FROM users WHERE id = $1', [userId]);
-  } finally {
-    client.release();
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -125,7 +123,5 @@ module.exports = {
   getUserByUsername,
   updateUser,
   deleteUser,
-  getUsers
-
-
+  getUsers,
 };

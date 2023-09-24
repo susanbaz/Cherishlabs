@@ -34,7 +34,7 @@ router.post('/signup', async (req, res, next) => {
     const token = jwt.sign(
       { id: newUser.id, username: newUser.username },
       JWT_SECRET,
-      { expiresIn: '1w' }
+      { expiresIn: '7d' }
     );
 
     res.status(201).json({ user: newUser, token, message: 'User created' });

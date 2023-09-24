@@ -28,7 +28,7 @@ function Login() {
 
     // Make a POST request to your login API endpoint
     try {
-      const response = await fetch('/api/users/Login', {
+      const response = await fetch('/api/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -60,7 +60,9 @@ function Login() {
 		</div>
     
     <div className="hb_popup_content">
+    <Link to="/login"> 
       <button className="hb_close_btn"><i className="fa fa-times"></i></button>
+    </Link>
       <h3>Login</h3>
       <div className="hb_popup_form">
         <form className="form-inline" onSubmit={handleLogin}>

@@ -1,11 +1,13 @@
 import React from 'react';
 
-function ProductSingle() {
+function ProductSingle({ product }) {
+ 
   return (
     <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 item">
       <div className="hb_product_div">
         <div className="hb_product_img">
-          <img src="http://via.placeholder.com/263x263" className="img-responsive" alt="" />
+        <img src={product.mediaLocation} className="img-responsive" alt={product.title} />
+
           <div className="product-image-overlay">
             <ul className="cart_icons">
               <li>
@@ -31,10 +33,10 @@ function ProductSingle() {
           </div>
         </div>
         <div className="hb_product_data">
-          <h5><a href="shop_single.html">Product Name</a></h5>
-          <p><del>$15</del> $12</p>
+          <h5><a href="shop_single.html">{product.title}</a></h5>
+          <p><del>$15</del> ${product.price}</p>
           <div className="hb_product_detail">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+            <p>{product.description}</p>
           </div>
           <div className="hb_product_btn">
             <a href="cart.html" className="hb_btn"><i className="flaticon-empty-shopping-cart"></i> add to cart </a>

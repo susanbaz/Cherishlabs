@@ -1,3 +1,6 @@
+// Import the dotenv module at the top
+require('dotenv').config();
+
 const { Client } = require('pg');
 
 const dbName = 'cherishlab';

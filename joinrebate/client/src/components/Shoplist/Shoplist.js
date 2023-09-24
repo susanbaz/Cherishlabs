@@ -1,26 +1,394 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import ProductSingle from './ProductSingle';
 
-function Shoplist() {
-  const [products, setProducts] = useState([]);
+const productList = [
+  {
+    productId: 1,
+    title: "Shark Lovers Unite",
+    size: "small",
+    colors: "white",
+    quantity: 100,
+    description: "Our diverse range of Shark T-shirts caters to all ages and tastes...",
+    price: 28,
+    mediaLocation: "./images/products/shark.png",
+    category_id: 1,
+  },
+  {
+    productId: 2,
+    title: "Shark Lovers Unite",
+    size: "medium",
+    colors: "black",
+    quantity: 100,
+    description: "Our diverse range of Shark T-shirts caters to all ages and tastes...",
+    price: 28,
+    mediaLocation: "./images/products/shark.png",
+    category_id: 1,
+  },
+  {
+    productId: 3,
+    title: "Shark Lovers Unite",
+    size: "large",
+    colors: "blue",
+    quantity: 100,
+    description: "Our diverse range of Shark T-shirts caters to all ages and tastes...",
+    price: 28,
+    mediaLocation: "./images/products/shark.png",
+    category_id: 1,
+  },
+  {
+    productId: 4,
+    title: "Shark Lovers Unite",
+    size: "XL",
+    colors: "green",
+    quantity: 0,
+    description: "Our diverse range of Shark T-shirts caters to all ages and tastes...",
+    price: 28,
+    mediaLocation: "./images/products/shark.png",
+    category_id: 1,
+  },
+  {
+    productId: 5,
+    title: "Unique Boats and Hoes T-Shirt - Perfect for Movie Enthusiasts",
+    size: "small",
+    colors: "white",
+    quantity: 50,
+    description: "Don't miss out on the opportunity to own this unique piece of movie-inspired fashion...",
+    price: 32,
+    mediaLocation: "./images/products/boat.png",
+    category_id: 1,
+  },
+  {
+    productId: 6,
+    title: "Unique Boats and Hoes T-Shirt - Perfect for Movie Enthusiasts",
+    size: "medium",
+    colors: "black",
+    quantity: 50,
+    description: "Don't miss out on the opportunity to own this unique piece of movie-inspired fashion...",
+    price: 32,
+    mediaLocation: "./images/products/boat.png",
+    category_id: 1,
+  },
+  {
+    productId: 7,
+    title: "Unique Boats and Hoes T-Shirt - Perfect for Movie Enthusiasts",
+    size: "large",
+    colors: "blue",
+    quantity: 50,
+    description: "Don't miss out on the opportunity to own this unique piece of movie-inspired fashion...",
+    price: 32,
+    mediaLocation: "./images/products/boat.png",
+    category_id: 1,
+  },
+  {
+    productId: 8,
+    title: "Unique Boats and Hoes T-Shirt - Perfect for Movie Enthusiasts",
+    size: "XL",
+    colors: "green",
+    quantity: 10,
+    description: "Don't miss out on the opportunity to own this unique piece of movie-inspired fashion...",
+    price: 32,
+    mediaLocation: "./images/products/boat.png",
+    category_id: 1,
+  },
+  {
+    productId: 9,
+    title: "Holiday Spirit on Display: Christmas T-Shirts Galore",
+    size: "small",
+    colors: "white",
+    quantity: 20,
+    description: "Crafted with comfort in mind, our Christmas shirts are made from high-quality materials...",
+    price: 24,
+    mediaLocation: "./images/products/christmas.png",
+    category_id: 1,
+  },
+  {
+    productId: 10,
+    title: "Holiday Spirit on Display: Christmas T-Shirts Galore",
+    size: "medium",
+    colors: "black",
+    quantity: 20,
+    description: "Crafted with comfort in mind, our Christmas shirts are made from high-quality materials...",
+    price: 24,
+    mediaLocation: "./images/products/christmas.png",
+    category_id: 1,
+  },
+  {
+    productId: 11,
+    title: "Holiday Spirit on Display: Christmas T-Shirts Galore",
+    size: "large",
+    colors: "blue",
+    quantity: 20,
+    description: "Crafted with comfort in mind, our Christmas shirts are made from high-quality materials...",
+    price: 24,
+    mediaLocation: "./images/products/christmas.png",
+    category_id: 1,
+  },
+  {
+    productId: 12,
+    title: "Holiday Spirit on Display: Christmas T-Shirts Galore",
+    size: "XL",
+    colors: "green",
+    quantity: 3,
+    description: "Crafted with comfort in mind, our Christmas shirts are made from high-quality materials...",
+    price: 24,
+    mediaLocation: "./images/products/christmas.png",
+    category_id: 1,
+  },
+  {
+    productId: 13,
+    title: "Spooktacular Halloween T-Shirts: Creepy, Cute, and Customizable",
+    size: "small",
+    colors: "white",
+    quantity: 15,
+    description: "Don't wait until October 31st to get into the spirit—browse our Halloween t-shirts today...",
+    price: 19,
+    mediaLocation: "./images/products/halloween.png",
+    category_id: 1,
+  },
+  {
+    productId: 14,
+    title: "Spooktacular Halloween T-Shirts: Creepy, Cute, and Customizable",
+    size: "medium",
+    colors: "black",
+    quantity: 15,
+    description: "Don't wait until October 31st to get into the spirit—browse our Halloween t-shirts today...",
+    price: 19,
+    mediaLocation: "./images/products/halloween.png",
+    category_id: 1,
+  },
+  {
+    productId: 15,
+    title: "Spooktacular Halloween T-Shirts: Creepy, Cute, and Customizable",
+    size: "large",
+    colors: "blue",
+    quantity: 15,
+    description: "Don't wait until October 31st to get into the spirit—browse our Halloween t-shirts today...",
+    price: 19,
+    mediaLocation: "./images/products/halloween.png",
+    category_id: 1,
+  },
+  {
+    productId: 16,
+    title: "Spooktacular Halloween T-Shirts: Creepy, Cute, and Customizable",
+    size: "XL",
+    colors: "green",
+    quantity: 1,
+    description: "Don't wait until October 31st to get into the spirit—browse our Halloween t-shirts today...",
+    price: 19,
+    mediaLocation: "./images/products/halloween.png",
+    category_id: 1,
+  },
+  {
+    productId: 17,
+    title: "God's Masterpiece T-Shirt: Wear Your Faith with Pride",
+    size: "small",
+    colors: "white",
+    quantity: 10,
+    description: "Share your faith, your strength, and your belief in the masterpiece that is you...",
+    price: 22,
+    mediaLocation: "./images/products/masterpiece.png",
+    category_id: 1,
+  },
+  {
+    productId: 18,
+    title: "God's Masterpiece T-Shirt: Wear Your Faith with Pride",
+    size: "medium",
+    colors: "black",
+    quantity: 10,
+    description: "Share your faith, your strength, and your belief in the masterpiece that is you...",
+    price: 22,
+    mediaLocation: "./images/products/masterpiece.png",
+    category_id: 1,
+  },
+  {
+    productId: 19,
+    title: "God's Masterpiece T-Shirt: Wear Your Faith with Pride",
+    size: "large",
+    colors: "blue",
+    quantity: 10,
+    description: "Share your faith, your strength, and your belief in the masterpiece that is you...",
+    price: 22,
+    mediaLocation: "./images/products/masterpiece.png",
+    category_id: 1,
+  },
+  {
+    productId: 20,
+    title: "God's Masterpiece T-Shirt: Wear Your Faith with Pride",
+    size: "XL",
+    colors: "green",
+    quantity: 5,
+    description: "Share your faith, your strength, and your belief in the masterpiece that is you...",
+    price: 22,
+    mediaLocation: "./images/products/masterpiece.png",
+    category_id: 1,
+  },
+  {
+    productId: 21,
+    title: "USA Flag Tees",
+    size: "small",
+    colors: "white",
+    quantity: 25,
+    description: "Discover a wide range of American flag shirts and apparel on Amazon...",
+    price: 15,
+    mediaLocation: "./images/products/people.png",
+    category_id: 1,
+  },
+  {
+    productId: 22,
+    title: "USA Flag Tees",
+    size: "medium",
+    colors: "black",
+    quantity: 25,
+    description: "Discover a wide range of American flag shirts and apparel on Amazon...",
+    price: 15,
+    mediaLocation: "./images/products/people.png",
+    category_id: 1,
+  },
+  {
+    productId: 23,
+    title: "USA Flag Tees",
+    size: "large",
+    colors: "blue",
+    quantity: 25,
+    description: "Discover a wide range of American flag shirts and apparel on Amazon...",
+    price: 15,
+    mediaLocation: "./images/products/people.png",
+    category_id: 1,
+  },
+  {
+    productId: 24,
+    title: "USA Flag Tees",
+    size: "XL",
+    colors: "green",
+    quantity: 0,
+    description: "Discover a wide range of American flag shirts and apparel on Amazon...",
+    price: 15,
+    mediaLocation: "./images/products/people.png",
+    category_id: 1,
+  },
+  {
+    productId: 25,
+    title: "Explore Flamingo Shirts",
+    size: "small",
+    colors: "white",
+    quantity: 30,
+    description: "Dive into the world of flamingos with our wide selection of flamingo shirts on Amazon...",
+    price: 16,
+    mediaLocation: "./images/products/flamingo.png",
+    category_id: 1,
+  },
+  {
+    productId: 26,
+    title: "Explore Flamingo Shirts",
+    size: "medium",
+    colors: "black",
+    quantity: 30,
+    description: "Dive into the world of flamingos with our wide selection of flamingo shirts on Amazon...",
+    price: 16,
+    mediaLocation: "./images/products/flamingo.png",
+    category_id: 1,
+  },
+  {
+    productId: 27,
+    title: "Explore Flamingo Shirts",
+    size: "large",
+    colors: "blue",
+    quantity: 30,
+    description: "Dive into the world of flamingos with our wide selection of flamingo shirts on Amazon...",
+    price: 16,
+    mediaLocation: "./images/products/flamingo.png",
+    category_id: 1,
+  },
+  {
+    productId: 28,
+    title: "Explore Flamingo Shirts",
+    size: "XL",
+    colors: "green",
+    quantity: 30,
+    description: "Dive into the world of flamingos with our wide selection of flamingo shirts on Amazon...",
+    price: 16,
+    mediaLocation: "./images/products/flamingo.png",
+    category_id: 1,
+  },
+  {
+    productId: 29,
+    title: "Discover the Cosmos with Space T-Shirts",
+    size: "small",
+    colors: "white",
+    quantity: 30,
+    description: "Explore the universe of space-themed t-shirts on Amazon...",
+    price: 15,
+    mediaLocation: "./images/products/space.png",
+    category_id: 1,
+  },
+  {
+    productId: 30,
+    title: "Discover the Cosmos with Space T-Shirts",
+    size: "medium",
+    colors: "black",
+    quantity: 30,
+    description: "Explore the universe of space-themed t-shirts on Amazon...",
+    price: 15,
+    mediaLocation: "./images/products/space.png",
+    category_id: 1,
+  },
+  {
+    productId: 31,
+    title: "Discover the Cosmos with Space T-Shirts",
+    size: "large",
+    colors: "blue",
+    quantity: 30,
+    description: "Explore the universe of space-themed t-shirts on Amazon...",
+    price: 15,
+    mediaLocation: "./images/products/space.png",
+    category_id: 1,
+  },
+  {
+    productId: 32,
+    title: "Discover the Cosmos with Space T-Shirts",
+    size: "XL",
+    colors: "green",
+    quantity: 30,
+    description: "Explore the universe of space-themed t-shirts on Amazon...",
+    price: 15,
+    mediaLocation: "./images/products/space.png",
+    category_id: 1,
+  },
+];
 
-  useEffect(() => {
-    // Fetch product data from the server when the component mounts
-    axios.get('/api/products')
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-      });
-  }, []);
+function Shoplist() {
+  const productsPerPage = 9; // Number of products to display per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalProducts = productList.length;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const currentProducts = productList.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div id="products" className="list-group">
-      {products.map((product) => (
-        <ProductSingle key={product.id} product={product} />
+      {currentProducts.map((product) => (
+        <ProductSingle key={product.productId} product={product} />
       ))}
+      <div className="pagination">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>{`Page ${currentPage} of ${totalPages}`}</span>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

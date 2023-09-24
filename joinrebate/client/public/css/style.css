@@ -1083,11 +1083,11 @@ ul.hb_rev_slider, ul.hb_rev_slider li {
     position: absolute;
     left: -10px;
     top: 50%;
-    transform: translateY(-50%);
+    -o-transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
 .hb_product_div .hb_product_img .product-image-overlay ul.cart_icons {
     width: 100%;
@@ -3420,7 +3420,7 @@ ul.hb_rev_slider, ul.hb_rev_slider li {
 } 
 @media (max-width: 479px) {
 .hb_custom_popup .hb_popup_inner .hb_popup_img {
-	display:block;
+	display:none;
 }
 .hb_custom_popup .hb_popup_inner .hb_popup_img img {
     height: 200px;
