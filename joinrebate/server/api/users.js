@@ -6,7 +6,7 @@ const SALT_COUNT = 10;
 const { signupUser, loginUser, logoutUser, getUserByUsername, getUsers,updateUser, deleteUser } = require('../db/users');
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.JWT_SECRET;
-console.log(SECRET);
+// console.log(SECRET);
 
 //get the user from the database
 router.get('/', async (req, res, next) => {
@@ -31,14 +31,14 @@ router.post('/signup', async (req, res, next) => {
 
     // Call the signupUser function from db/users.js to create a new user
     const newUser = await signupUser({ username, password: hashedPassword, email });
-console.log(newUser)
+// console.log(newUser)
     // Generate a JWT token for the newly created user
     const token = jwt.sign(
       { id: newUser.id },
       "secret",
       { expiresIn: '7d' }
     );
-console.log(token);
+// console.log(token);
 
 
     res.status(201).json({ user: newUser, token, message: 'User created' });

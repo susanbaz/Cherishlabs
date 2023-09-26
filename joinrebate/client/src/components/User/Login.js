@@ -29,7 +29,7 @@ const Login = ({ isShowLogin }) => {
         body: JSON.stringify({
           username,
           password,
-          rememberMe,
+    
         }),
       });
 
