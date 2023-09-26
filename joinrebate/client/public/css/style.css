@@ -272,6 +272,23 @@ body{
     -o-transition: 0.3s;
     transition: 0.3s;
 }
+/* Hide the search form by default */
+.hb_search_form {
+    display: none;
+  }
+  
+  /* Show the search form when .flaticon-search-2 has the .active class */
+  .flaticon-search-2.active + .hb_search_form {
+    display: block;
+  }
+
+  /* CSS to control the appearance of the search icon when active */
+.flaticon-search-2.active {
+    /* Define the styles you want when the search form is active */
+    color: #ff0000; /* Change the color, for example */
+    /* Add any other styles you need */
+  }
+  
 .hb_header_right_links ul li.hb_search_wrapper.open_form .hb_search_form {
     width: 200px;
 }
@@ -337,7 +354,7 @@ body{
 /*-------top header end------*/
 /*------custom popup start----*/
 .hb_custom_popup {
-    position: fixed;
+    /* position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
@@ -346,8 +363,27 @@ body{
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: -1;
-    opacity: 0;
+    opacity: 0; */
+   
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: -1;
+        opacity: 0;
+        display: none;
+    
 }
+.hb_custom_popup.show {
+    display: block;
+    transition: 800ms;
+    opacity: 1;
+}
+
 .hb_custom_popup .hb_popup_inner {
     position: absolute;
     top: 50%;
@@ -361,6 +397,7 @@ body{
     background: #fff;
     border-radius: 5px;
 }
+
 .hb_custom_popup .hb_popup_inner .hb_popup_img {
     float: left;
     width: 350px;
@@ -440,6 +477,17 @@ body{
     line-height: 18px;
     text-transform: capitalize;
 }
+
+.show {
+    display: block;
+    transition: 800ms;
+    opacity: 1;
+  }
+  
+  .show.active {
+    transform: translateY(100px) scale(0) rotateY(180deg);
+    opacity: 0;
+  }
 /* checkbox aspect */
 .hb_popup_form .form-inline .form-group p [type="checkbox"]:not(:checked) + label:before,
 [type="checkbox"]:checked + label:before {

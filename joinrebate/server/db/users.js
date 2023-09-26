@@ -1,11 +1,11 @@
 // Import the dotenv module at the top
 require('dotenv').config();
 
-// Then, you can continue with your other imports and code
+
 const client = require('./client');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = process.env; // Remove COOKIE_SECRET as it's not used in this file
+const { JWT_SECRET } = process.env; 
 const SALT_COUNT = 10;
 
 // Get all users from the database

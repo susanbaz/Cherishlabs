@@ -56,6 +56,22 @@ async function getProductById(productId) {
   }
 }
 
+//get the category from the product
+async function getCategoryByProductId(productId) {
+  try {
+    const { rows: [ category ] } = await client.query(`
+      SELECT *
+      FROM categories
+      JOIN products ON products.category_id = categories.id
+      WHERE products.id = $1;
+    `, [productId]);
+
+    return category;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // Update a product by ID
 async function updateProduct(productId, productData) {
   try {
@@ -104,4 +120,5 @@ module.exports = {
   getProductById,
   updateProduct,
   deleteProduct,
+  getCategoryByProductId,
 };

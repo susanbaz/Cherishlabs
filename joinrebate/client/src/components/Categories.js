@@ -1,20 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Categories() {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    // Fetch categories and products from your API
+    const fetchData = async () => {
+      try {
+        // Fetch categories
+        const categoriesResponse = await fetch('/api/categories');
+        const categoriesData = await categoriesResponse.json();
+
+        // Fetch products
+        const productsResponse = await fetch('/api/products');
+        const productsData = await productsResponse.json();
+
+        // Calculate product counts for each category
+        const categoriesWithCount = categoriesData.map(category => ({
+          ...category,
+          productCount: productsData.filter(product => product.category_id === category.id).length
+        }));
+
+        setCategories(categoriesWithCount);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="widget widget_categories">
       <h3 className="widget-title">Categories</h3>
       <ul>
-        <li><a href="#">Men's Clothing<span>40</span></a></li>
-        <li><a href="#">Women's Clothing <span>22</span></a></li>
-        <li><a href="#">Kids's Clothing <span>65</span></a></li>
-        <li><a href="#">Accessories <span>07</span></a></li>
-        <li><a href="#">Home&Living <span>13</span></a></li>
-        <li><a href="#">Halloween <span>15</span></a></li>
-        <li><a href="#">Bestsellers <span>45</span></a></li>
-        <li><a href="#">New Arrivals<span>30</span></a></li>
-        <li><a href="#">Eco-friendsly<span>17</span></a></li>
-        
+        {categories.map(category => (
+          <li key={category.id}>
+            <a href="#">{category.name}<span>{category.productCount}</span></a>
+          </li>
+        ))}
       </ul>
     </div>
   );

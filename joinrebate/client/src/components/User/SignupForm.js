@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 
 function SignupForm() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    email: '',
+  });
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-  };
+  const [signupError, setSignupError] = useState(null);
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   const handleSignup = async (event) => {
@@ -26,14 +26,16 @@ function SignupForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password, email }),
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         // Handle successful signup, e.g., redirect to a welcome page or login page.
+        console.log('Signup successful');
       } else {
         // Handle signup error, e.g., display an error message to the user.
         const errorData = await response.json();
+        setSignupError(errorData.message);
         console.error('Signup failed:', errorData.message);
       }
     } catch (error) {
@@ -50,8 +52,10 @@ function SignupForm() {
             type="text"
             className="form-control"
             placeholder="Username"
-            value={username}
-            onChange={handleUsernameChange}
+            name="username"
+            value={formData.username}
+            onChange={handleInputChange}
+            required
           />
         </div>
         <div className="form-group">
@@ -59,8 +63,10 @@ function SignupForm() {
             type="password"
             className="form-control"
             placeholder="Password"
-            value={password}
-            onChange={handlePasswordChange}
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
+            required
           />
         </div>
         <div className="form-group">
@@ -68,13 +74,16 @@ function SignupForm() {
             type="email"
             className="form-control"
             placeholder="Email"
-            value={email}
-            onChange={handleEmailChange}
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            required
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary" onClick={handleSignup}>
           Sign Up
         </button>
+        {signupError && <p className="error">{signupError}</p>}
       </form>
     </div>
   );

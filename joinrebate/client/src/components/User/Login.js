@@ -1,127 +1,119 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import SignupForm from './SignupForm';
+import React, { useState, useEffect } from "react";
+import SignupForm from "./SignupForm";
 
-
-function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const Login = ({ isShowLogin }) => {
+  // State to manage login form input fields
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  // State to manage signup form visibility
+  const [showSignupForm, setShowSignupForm] = useState(false);
+  // State for remembering the user
   const [rememberMe, setRememberMe] = useState(false);
-  const [showSignupForm, setShowSignupForm] = useState(false);// State to control when to show the SignupForm
-  const [user,setUser]=useState(); 
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+  // Function to toggle signup form visibility
+  const toggleSignupForm = () => {
+    setShowSignupForm(!showSignupForm);
   };
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleRememberMeChange = (event) => {
-    setRememberMe(event.target.checked);
-  };
-
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    console.log("handleLogin called");
-
-    // Make a POST request to your login API endpoint
+  // Function to handle form submission
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    // Make an API call to login with the username and password
     try {
-      const response = await fetch('/api/users/login', {
-        method: 'POST',
+      
+      const response = await fetch("/api/users/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({
+          username,
+          password,
+          rememberMe,
+        }),
       });
 
       if (response.ok) {
-        const userData=await response.json();
-        setUser(userData.user);
+        // Handle successful login here (e.g., redirect)
+        console.log("Login successful");
       } else {
-        // Handle login error, e.g., display an error message to the user.
-        const errorData = await response.json();
-        console.error('Login failed:', errorData.message);
+        // Handle login error here
+        console.error("Login failed");
       }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
     }
   };
 
   return (
-  <div class="hb_custom_popup hb_login">
-	<div class="hb_popup_inner">
-		<div class="hb_popup_img">
-			<img src="/images/pics/loginbackground.png" class="img-responsive" alt="" ></img>
-			<div class="hb_popup_overlay">
-				<img src="images/popup_logo.png" class="img-responsive" alt=""></img>
-			</div>
-		</div>
-    
-    <div className="hb_popup_content">
-    <Link to="/login"> 
-      <button className="hb_close_btn"><i className="fa fa-times"></i></button>
-    </Link>
-      <h3>Login</h3>
-      <div className="hb_popup_form">
-        <form className="form-inline" onSubmit={handleLogin}>
-          <div className="form-group">
-            <div className="input-group">
-              <div className="input-group-addon"><i className="fa fa-user"></i></div>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter Your User Name"
-                value={username}
-                onChange={handleUsernameChange}
-              />
-            </div>
-          </div>
-          <div className="form-group">
-            <div className="input-group">
-              <div className="input-group-addon"><i className="fa fa-lock"></i></div>
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Enter Your Password"
-                value={password}
-                onChange={handlePasswordChange}
-              />
-            </div>
-          </div>
-          <div className="form-group">
-            <div className="row">
-              <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <p>
-                  <input
-                    type="checkbox"
-                    id="check"
-                    name="remember"
-                    value={rememberMe}
-                    onChange={handleRememberMeChange}
-                  />
-                  <label htmlFor="check">Remember me</label>
-                </p>
-              </div>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <a href="#">Forgot password?</a>
+    <div className={`${isShowLogin ? "active" : ""} show`}>
+      <div className="login-form">
+        <div className="form-box solid">
+          <form className="form-inline" onSubmit={handleLogin}>
+            <div className="form-group">
+              <div className="input-group">
+                <div className="input-group-addon">
+                  <i className="fa fa-user"></i>
+                </div>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter Your User Name"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
               </div>
             </div>
-          </div>
-          <button type="submit" className="hb_btn"> Login</button>
-        </form>
+            <div className="form-group">
+              <div className="input-group">
+                <div className="input-group-addon">
+                  <i className="fa fa-lock"></i>
+                </div>
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Enter Your Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="row">
+                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                  <p>
+                    <input
+                      type="checkbox"
+                      id="check"
+                      name="remember"
+                      value=""
+                      checked={rememberMe}
+                      onChange={() => setRememberMe(!rememberMe)}
+                    />{" "}
+                    <label htmlFor="check">Remember me</label>
+                  </p>
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                  <button type="button" onClick={() => { /* Handle the "Forgot password?" action here */ }}>
+                    Forgot password ?
+                  </button>
+                </div>
+              </div>
+            </div>
+            <button className="hb_btn" onClick={handleLogin}>Login</button>
+          </form>
+        </div>
+        <p>
+          Don't have an account?{" "}
+          <button type="button" onClick={toggleSignupForm}>
+            Sign up
+          </button>
+        </p>
       </div>
-      <p>
-        Don't have an account?{' '}
-        <a href="#" onClick={() => setShowSignupForm(true)}>Sign up</a> {/* Toggle the SignupForm */}
-      </p>
-      {showSignupForm && <SignupForm />} {/* Conditionally render SignupForm */}
+      {/* Conditionally render the SignupForm */}
+      {showSignupForm && <SignupForm />}
     </div>
-  </div>
-</div>
-
   );
-}
+};
 
 export default Login;

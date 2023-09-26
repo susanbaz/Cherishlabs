@@ -14,8 +14,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <div id="container">
-      <Login />
-        <Routes>
+            <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/users" element={<Login />} />
