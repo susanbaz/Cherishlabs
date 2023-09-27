@@ -18,6 +18,17 @@ async function getUsers() {
   }
 }
 
+// Get a user by user ID
+async function getUserById(userId) {
+  try {
+    const result = await client.query('SELECT * FROM users WHERE id = $1', [userId]);
+    return result.rows[0];
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 // User signup
 async function signupUser({ username, password, email }) {
   try {

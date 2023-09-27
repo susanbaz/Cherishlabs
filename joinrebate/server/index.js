@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan'); // Add this line
 const app = new express();
-const PORT = process.env.PORT || 5000; // Correct the capitalization of 'PORT'
+const PORT = process.env.PORT || 31885; // Correct the capitalization of 'PORT'
 const cors=require('cors')
 const client = require('./db/client');// Add this line
 const usersRouter = require('./api/users');
